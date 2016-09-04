@@ -1,0 +1,60 @@
+#login-page{
+	background-image:url("../../views/bg2.jpg");
+	background-repeat:no-repeat;
+	background-size:cover;
+	margin:0 auto;
+	background-size:cover;
+	background-position:center;
+}
+#wrapper {
+    display: block;
+    max-width: 660px;
+    max-height: 500px;
+    margin: auto;
+    position: fixed;
+    top: 0%; 
+    bottom: 0%; 
+    right: 5%;
+}
+
+#login-box-body{
+	background-color:rgba(26,26,26,0.7);
+	border-radius:15px;
+	text-align:center;
+	max-height: 400px;
+    max-width: 400px;
+    height:auto;
+    width:auto;
+    margin:0 auto;
+    margin-top:35px;
+    position:center;
+    margin-right:20px auto;
+    margin-left:20px auto;
+    background-size:contain;
+    color:white;
+
+}
+
+.submit-button{
+	margin-left:50px;
+}
+.login-logo{
+	margin:0 auto;
+	margin-top:100px;
+}
+.login-logo img{
+	height:120px;
+	width:120px;
+	margin:0 auto;
+}
+
+#page1{
+	background-color:#2a2a2a;
+	background-repeat:no-repeat;
+	background-size:cover;
+	margin:  0 auto;
+}
+
+.fuck-u-anishe{
+	/*to-do-by-manish*/
+}

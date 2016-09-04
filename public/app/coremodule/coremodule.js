@@ -31,9 +31,14 @@ define(['app/runners/logrunner.js'], function(logrunner) {
   */
   coremodule.config(function($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/dashboard', {
         templateUrl: 'app/views/dashboard.html',
         controller: 'dashController',
+        controllerAs: 'main'
+      })
+      .when('/login', {
+        templateUrl: 'app/views/login.html',
+        controller: 'loginController',
         controllerAs: 'main'
       })
       .otherwise({

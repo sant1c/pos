@@ -17,8 +17,10 @@ define(function() {
 	return [
 		//controller refrences
 		"app/controllers/dashboard/dashController.js",
+		"app/controllers/login/loginController.js",
 		// factory refrences
 		"app/factory/dashboard/dashFactory.js",
+		"app/factory/login/loginFactory.js",
 		// dependencies
 		'angular',
 		'angular-route',

@@ -24,7 +24,7 @@ var User = mongoose.model('User', userSchema);
 // create a new user called chris
 var chris = new User({
   name: 'Chris',
-  username: 'nikhil',
+  username: 'nykhilamatya@gmail.com',
   password: 'amatya' 
 });
 

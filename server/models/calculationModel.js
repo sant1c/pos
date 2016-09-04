@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var calculationSchema = new Schema({
-    _clacid: Schema.Types.ObjectId,
+    _calcid: Schema.Types.ObjectId,
     name: String,
     _userid: Schema.Types.ObjectId,
     _employeeid : Schema.Types.ObjectId,
