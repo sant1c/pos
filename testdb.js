@@ -3,35 +3,32 @@ mongoose.connect('mongodb://localhost/momoking')
 var Schema = mongoose.Schema;
 
 // create a schema
-var userSchema = new Schema({
-  name: String,
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  admin: Boolean,
-  location: String,
-  meta: {
-    age: Number,
-    website: String
-  },
-  created_at: Date,
-  updated_at: Date
+var tableSchema = new Schema({
+    _tableid: Schema.Types.ObjectId,
+    name: String,
+    table: { type: String, required: true, unique: true },
+    meta: {
+        age: Number,
+        website: String
+    },
+    created_at: Date,
+    updated_at: Date
 });
 
 // the schema is useless so far
 // we need to create a model using it
-var User = mongoose.model('User', userSchema);
+var Table = mongoose.model('Table', tableSchema);
 
 // create a new user called chris
-var chris = new User({
-  name: 'Chris',
-  username: 'nykhilamatya@gmail.com',
-  password: 'amatya' 
+var Table1 = new Table({
+  name: 'Table1',
+  table: 'Table1'
 });
 
 
 // call the built-in save method to save to the database
-chris.save(function(err) {
+Table1.save(function(err) {
   if (err) throw err;
 
-  console.log('User saved successfully!');
+  console.log('Table saved successfully!');
 });
