@@ -3,10 +3,11 @@ mongoose.connect('mongodb://localhost/momoking')
 var Schema = mongoose.Schema;
 
 // create a schema
-var tableSchema = new Schema({
-    _tableid: Schema.Types.ObjectId,
+var menuSchema = new Schema({
+    _menuid: Schema.Types.ObjectId,
     name: String,
-    table: { type: String, required: true, unique: true },
+    type: { type: String, required: true },
+    price : {type: String, required: true},
     meta: {
         age: Number,
         website: String
@@ -17,17 +18,18 @@ var tableSchema = new Schema({
 
 // the schema is useless so far
 // we need to create a model using it
-var Table = mongoose.model('Table', tableSchema);
+var Menu = mongoose.model('Menu', menuSchema);
 
 // create a new user called chris
-var Table1 = new Table({
-  name: 'Table1',
-  table: 'Table1'
-});
+var list = new Menu({
+  name: 'fishoff',
+  type: 'truu',
+  price: '1234541'
+});t
 
 
 // call the built-in save method to save to the database
-Table1.save(function(err) {
+list.save(function(err) {
   if (err) throw err;
 
   console.log('Table saved successfully!');

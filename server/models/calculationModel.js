@@ -3,14 +3,12 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var calculationSchema = new Schema({
+
     _calcid: Schema.Types.ObjectId,
-    name: String,
-    _userid: Schema.Types.ObjectId,
-    _employeeid : Schema.Types.ObjectId,
-    _tableid : Schema.Types.ObjectId,
-    _bevid : Schema.Types.ObjectId,
-    ammount : { type: String, required: true }, 
-    date: { type: Date, required: true },
+    tableno: String,
+    description: String,
+    date: Date,
+    total: Number,
     meta: {
         age: Number,
         website: String
