@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>jQuery Widgets Examples - Calendar, DateTimeInput, NumberInput, Menu, Context
+        Menu, ListBox, DropDownList, TextBox, Button, LinkButton, RepeatButton, ProgressBar,
+        Accordion, Expander</title>
+    <link rel="stylesheet" href="styles/jquery.ui.all.css"/>
+    <link rel="stylesheet" href="styles/site.css"  type="text/css"/>
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.default.css" media="screen" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.energyblue.css" media="screen" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.shinyblack.css" media="screen" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.darkblue.css" media="screen" />
+    <link rel="stylesheet" href="styles/jqx.apireference.css" media="screen" />
+    <script type="text/javascript" src="scripts/format.js"></script>
+    <script type="text/javascript" src="scripts/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="scripts/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="scripts/jquery.ui.tabs.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtooltip.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxexpander.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxnavigationbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmaskedinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxprogressbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdockpanel.js"></script>
+    <script type="text/javascript" src="scripts/globalization/jquery.global.js"></script>
+     <script type="text/javascript">
+        function loadWelcomePage() {
+            var content = $('#demos')[0];
+            var navigation = $($.find('.navigation'));
+            $('#tabs').css('visibility', 'hidden');
+            $('#themeSelector').css({ display: 'none' });
+            $("#divWelcome").css('display', 'block');
+            $.ajax({
+                url: 'welcome.htm',
+                dataType: 'html',
+                type: 'GET',
+                success: function (data) {
+                    $("#divWelcome").html(data);
+                }
+            });
+
+            $('#Examples').click(function () {
+                GoToWelcomePage();
+                return false;
+            });
+        }
+
+        function GoToWelcomePage() {
+            var content = $('#demos')[0];
+            $('#themeSelector').css({ display: 'none' });
+            $.ajax({
+                url: 'welcome.htm',
+                dataType: 'html',
+                type: 'GET',
+                success: function (data) {
+                    var oldChildren = $.data(content, 'expandedElement');
+                    var oldTarget = $.data(content, 'expandedTarget');
+
+                    if (oldTarget != null) {
+                        var $oldTarget = $(oldTarget);
+                        var $oldtargetParentParent = $($oldTarget.parent()).parent();
+                        if (oldChildren != null && oldChildren.css('display') == 'block') {
+                            oldChildren.css('display', 'none');
+                            $oldtargetParentParent.removeClass('navigationItem-expanded');
+                            $oldtargetParentParent.find('.navigationContent').css('display', 'none');
+                        }
+                    }
+
+                    $('#tabs').css('visibility', 'hidden');
+                    $("#divWelcome").css('display', 'block');
+                    $("#divWelcome").html(data);
+                    $("#examplePath").html('');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            var content = $('#demos')[0];
+            var navigation = $($.find('.navigation'));
+            var self = this;
+            navigation.find('.navigationItem').click(function (event) {
+                return false;
+            });
+
+            var imageOffset = 0;
+            loadWelcomePage();
+
+            var themes = ['Classic', 'Energy Blue', 'Shiny Black', 'Dark Blue'];
+            var me = this;
+            $('#themeComboBox').jqxDropDownList({ source: themes, selectedIndex: 2, dropDownHeight: 100, width: '120px', height: '20px' });
+            $.data(document.body, 'theme', 'shinyblack');
+            $('#themeComboBox').bind('select', function (event) {
+                var selectedIndex = event.args.index;
+                var selectedTheme = '';
+                switch (selectedIndex) {
+                    case 1:
+                        selectedTheme = 'energyblue';
+                        break;
+                    case 2:
+                        selectedTheme = 'shinyblack';
+                        break;
+                    case 3:
+                        selectedTheme = 'darkblue';
+                        break;
+                }
+                $.data(document.body, 'theme', selectedTheme);
+                var startedExample = $.data(document.body, 'example');
+                if (startedExample != null) {
+                    startDemo(startedExample);
+                }
+            });
+
+            navigation.find('.navigationHeader').click(function (event) {
+                var $target = $(event.target);
+                var $targetParent = $target.parent();
+                if ($targetParent[0].className.length == 0) {
+                    var $targetParentParent = $($target.parent()).parent();
+                    var oldChildren = $.data(content, 'expandedElement');
+                    var oldTarget = $.data(content, 'expandedTarget');
+
+                    if (oldTarget != null && oldTarget != event.target) {
+                        var $oldTarget = $(oldTarget);
+                        var $oldtargetParentParent = $($oldTarget.parent()).parent();
+                        if (oldChildren.css('display') == 'block') {
+                            oldChildren.css('display', 'none');
+                            $oldtargetParentParent.removeClass('navigationItem-expanded');
+                            $oldtargetParentParent.find('.navigationContent').css('display', 'none');
+                        }
+                    }
+
+                    var children = $targetParentParent.find('.navigationItemContent');
+                    $.data(content, 'expandedElement', children);
+                    $.data(content, 'expandedTarget', event.target);
+
+                    if (children.css('display') == 'none') {
+                        children.css({ opacity: 0, display: 'block', visibility: 'visible' }).animate({ opacity: 1.0 }, 250, function () {
+                        });
+                        if ($targetParentParent[0].className == 'navigationItem') {
+                            $targetParentParent.addClass('navigationItem-expanded');
+                            $targetParentParent.find('.navigationContent').css('display', 'block');
+                        }
+                    }
+                    else children.css({ opacity: 1, visibility: 'visible' }).animate({ opacity: 0.0 }, 250, function () {
+                        children.css('display', 'none');
+                        $targetParentParent.removeClass('navigationItem-expanded');
+                        $targetParentParent.find('.navigationContent').css('display', 'none');
+                    });
+
+                }
+                return false;
+            });
+
+            loadDemo();
+        });
+
+        function loadDemo() {
+            var navigation = $($.find('.navigation'));
+            navigation.find('.navigationContent').click(function (event) {
+                var target = event.target;
+                startDemo(target);
+            });
+        }
+
+        function prepareExamplePath(url) {
+            var path = '<div id="pathElement">';
+            var str = '';
+            var examplePath = url.toString();
+            for (i = 0; i < url.toString().length; i++) {
+                if (i == 0) {
+                    path += "<span><img style='margin-left: 2px; float: left;' src='images/icon-right.png'/></span>";
+                }
+
+                var char = examplePath.substring(i, i + 1);
+                if (char == '/' || i == url.toString().length - 1) {
+                    if (i == url.toString().length - 1) {
+                        str += char;
+                        path += '<span style="margin-left: 2px; float: left;">' + str + '</span>';
+                    }
+                    else if (str == 'Demos') {
+                        path += '<span style="margin-left: 2px; float: left;"><a href="#">' + str + '</a></span>';
+                    }
+                    else path += '<span style="margin-left: 2px; float: left;">' + str + '</span>';
+
+                    path += "<img style='margin-left: 2px; float: left;' src='images/icon-right.png' />";
+                    str = '';
+                }
+                else str += char;
+            }
+
+            path += '</div>';
+            var leftOffset = -20;
+
+            $("#examplePath").html(path);
+            $("#examplePath").find('a').click(function () {
+                GoToWelcomePage();
+            });
+         
+            $("#examplePath").css('float', 'left');
+            $("#examplePath").css('margin-left', leftOffset);
+            $("#examplePath").animate({ 'margin-left': leftOffset + 20 }, 200, 'swing');
+            $("#themeSelector").css('display', 'block');
+            $("#themeSelector").css('float', 'right');
+        }
+
+        function startDemo(target) {
+            $('#tabs').tabs();
+            $('#tabs').tabs('select', 0);
+            $("#divWelcome").css('display', 'none');
+            $("#divWelcome").empty();
+            $.data(document.body, 'example', target);
+            var index = target.toString().indexOf('#') + 1;
+            if (index == 0)
+                return;
+
+            var url = target.toString().substring(index);
+            prepareExamplePath(url);
+            height = $('#demoContent').height();
+            var width = 716;
+            height -= parseInt(40);
+        
+            $('#tabs-1').css({ height: height + 'px', width: width + 'px'});
+            $('#tabs-2').css({ height: height + 'px', width: width + 'px'});
+            $('#tabs-3').css({ height: height + 'px', width: width + 'px' });
+
+            $("#innerDemoContent").empty();
+            var demoHeight = parseInt(height);
+            var demoWidth = parseInt($("#demoContent").width()) / 2;
+            var loader = $("<img src='images/loader.gif' />");
+            loader.css('margin-top', (demoHeight/2 - 18) + 'px');
+            loader.css('margin-left', (demoWidth - 18) + 'px');
+            $("#innerDemoContent").html(loader);
+            setTimeout(
+                function () {
+                    $.get(url,
+                    function (data) {
+                        var originalData = data;
+                        var descriptionLength = "<title id='Description'>".toString().length;
+                        var startIndex = data.indexOf('<title') + descriptionLength;
+                        var endIndex = data.indexOf('</title>');
+                        var description = data.substring(startIndex, endIndex);
+
+                        data = data.replace(/<script.*>.*<\/script>/ig, ""); // Remove script tags
+                        data = data.replace(/<\/?link.*>/ig, ""); //Remove link tags
+                        data = data.replace(/<\/?html.*>/ig, ""); //Remove html tag
+                        data = data.replace(/<\/?body.*>/ig, ""); //Remove body tag
+                        data = data.replace(/<\/?head.*>/ig, ""); //Remove head tag
+                        data = data.replace(/<\/?!doctype.*>/ig, ""); //Remove doctype
+                        data = data.replace(/<title.*>.*<\/title>/ig, ""); // Remove title tags
+						data = data.replace(/..\/..\/images\//g, "images/"); // fix image path
+                        $("#innerDemoContent").removeClass();
+                        var theme = $.data(document.body, 'theme');
+                        $("#innerDemoContent").removeAttr('theme');
+                        if (theme == undefined) theme = '';
+                        $("#innerDemoContent").attr('theme', theme.toString());
+                        $("#innerDemoContent").html('<div id="jqxInnerDemoContent" style="position: relative; top: 10px; left: 10px; width: 685px; height: 90%;">' + data + '</div>');
+                        var jqxDemoContent = $("#innerDemoContent").find('#content');
+                        var jqxInnerDemoContent = $("#innerDemoContent").find('#jqxInnerDemoContent');
+                        var jqxWidget = $("#innerDemoContent").find('#jqxWidget');
+                        var left = parseInt(jqxInnerDemoContent.width()) / 2 - parseInt(jqxWidget.width()) / 2;
+                        var top = parseInt(jqxInnerDemoContent.height()) / 2 - parseInt(jqxWidget.height()) / 2;
+                        jqxInnerDemoContent.css('visibility', 'visible');
+
+                        //populate tabs.
+                        $('#tabs').css('visibility', 'visible');
+                        $('#divDescription').html('<div style="margin: 10px;">' + description + '</div>');
+
+                        var result = formatCode(originalData);
+                        $('#tabs-2').html(result);
+                        var widgetNameStartIndex = url.indexOf('/');
+                        var widgetNameEndIndex = url.toString().substring(widgetNameStartIndex + 1).indexOf('/');
+                        var widgetName = url.substring(widgetNameStartIndex + 1, 1 + widgetNameStartIndex + widgetNameEndIndex);
+                        var apiURL = 'documentation/' + widgetName + '/' + widgetName + '-api.htm';
+                        $.ajax({
+                            dataType: 'html',
+                            url: apiURL,
+                            type: 'GET',
+                            success: function (api) {
+                                api = api.replace(/<script.*>.*<\/script>/ig, ""); // Remove script tags
+                                api = api.replace(/<\/?link.*>/ig, ""); //Remove link tags
+                                api = api.replace(/<\/?html.*>/ig, ""); //Remove html tag
+                                api = api.replace(/<\/?body.*>/ig, ""); //Remove body tag
+                                api = api.replace(/<\/?head.*>/ig, ""); //Remove head tag
+                                api = api.replace(/<\/?!doctype.*>/ig, ""); //Remove doctype
+                                api = api.replace(/<title.*>.*<\/title>/ig, ""); // Remove title tags                   
+                                $('#tabs-3').html('<div style="width: 90%; margin-left: 10px; margin-top: 10px; margin-right: 10px;">' + api + '</div>')
+                            }
+                        });
+                    }, "html"
+                    )
+                    return false;
+                }, 200);
+            return false;
+        }   
+    </script>
+</head>
+<body>
+        <table style='border-collapse: collapse; width: 916px;' cellspacing='0' cellpadding='0' align="left">
+            <tr id="demoHeader" style="height: 70px; background: #aaaaa; display:none;">
+                <td>
+                    Header goes here. Left blank for Wordpress header integration
+                </td>
+            </tr>
+            <tr valign="top">
+                <td>
+                    <table style='border-collapse: collapse;' cellspacing='0' cellpadding='0'>
+                        <tr>
+                            <td valign="top" role="navigation" class='navigation'>
+                                <div id='navigationTitle' class='navigationTitle'>
+                                    <a id='Examples' href="#Examples">Examples</a></div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/calendar.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxCalendar' class='navigationHeader' href='#jqxCalendarDemos'>jqxCalendar</a>
+                                    </div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/localization.htm'>Localization</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/specialdates.htm'>Special dates</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/showweekoftheyear.htm'>Show week of the year</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/restrictdaterange.htm'>Restrict date range</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/hideothermonthdays.htm'>Hide other month days</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/displayweekends.htm'>Display weekends style</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/firstdayofweek.htm'>First day of the week</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxcalendar/disabledcalendar.htm'>Disabled</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/datetimeinput.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxDateTimeInput' class='navigationHeader' href='#jqxDateTimeInputDemos'>jqxDateTimeInput</a>
+                                    </div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/localization.htm'>Localization</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/timeinput.htm'>Time Input</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/restrictdaterange.htm'>Restrict date range</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/formatdate.htm'>Format Date</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdatetimeinput/disableddatetimeinput.htm'>Disabled</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/menu.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxMenu' class='navigationHeader' href='#jqxMenuDemos'>jqxMenu</a>
+                                    </div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxmenu/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxmenu/contextmenu.htm'>Context Menu</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxmenu/verticalmenu.htm'>Vertical Menu</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxmenu/opendirection.htm'>Open Direction</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/listbox.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxListBox' class='navigationHeader' href='#jqxListBoxDemos'>jqxListBox</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/textwithicons.htm'>Text with Icons</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/categories.htm'>Categories</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/multipleselection.htm'>Multiple selection</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/loadfromxml.htm'>Xml data</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxlistbox/loadfromselect.htm'>Load data from select</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/dropdownlist.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxDropDownList' class='navigationHeader' href='#jqxDropDownListDemos'>jqxDropDownList</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdropdownlist/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdropdownlist/textwithicons.htm'>Text with Icons</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdropdownlist/categories.htm'>Categories</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdropdownlist/loadfromselect.htm'>Load data from select</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/button.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxButton' class='navigationHeader' href='#jqxButtonDemos'>jqxButton</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxbutton/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxbutton/togglebutton.htm'>Toggle Button</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxbutton/repeatbutton.htm'>Repeat Button</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxbutton/linkbutton.htm'>Link Button</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/navigationbar.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxNavigationBar' class='navigationHeader' href='#jqxNavigationBarDemos'>jqxNavigationBar</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnavigationbar/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnavigationbar/multipleexpanded.htm'>Multiple Expanded</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnavigationbar/nestednavigationbars.htm'>Nested Accordions</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnavigationbar/disablednavigationbar.htm'>Disabled</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/expander.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxExpander' class='navigationHeader' href='#jqxExpanderDemos'>jqxExpander</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxexpander/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxexpander/toggleondoubleclick.htm'>Toggle on Double-Click</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxexpander/loadondemand.htm'>Loading Data on Demand</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/progressbar.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxProgressBar' class='navigationHeader' href='#jqxProgressBarDemos'>jqxProgressBar</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxprogressbar/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/tooltip.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxToolTip' class='navigationHeader' href='#jqxTooltipDemos'>jqxToolTip</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxtooltip/defaultfunctionality.htm'>Default Functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/maskedinput.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxTextBox' class='navigationHeader' href='#jqxMaskedInputDemos'>jqxMaskedInput</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxmaskedinput/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/numberinput.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxInputs' class='navigationHeader' href='#jqxNumberInputDemos'>jqxNumberInput</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnumberinput/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxnumberinput/validation.htm'>Validation</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/scrollbar.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxScrollBar' class='navigationHeader' href='#jqxScrollBarDemos'>jqxScrollBar</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxscrollbar/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/panel.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxScrollBar' class='navigationHeader' href='#jqxPanelDemos'>jqxPanel</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxpanel/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='navigationItem'>
+                                    <div>
+                                        <img style='float: left;' src="images/dockpanel.png" />
+                                    </div>
+                                    <div>
+                                        <a title='jqxScrollBar' class='navigationHeader' href='#jqxDockPanelDemos'>jqxDockPanel</a></div>
+                                    <div class='navigationContent'>
+                                        <div class='navigationItemContent'>
+                                            <a href='#demos/jqxdockpanel/defaultfunctionality.htm'>Default functionality</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id='Div11' class='navigationBottom'>
+                                </div>
+                            </td>
+                            <td id="demos" class='content'>
+                            <table style='border-collapse: collapse;' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                <td>
+                                <div class="examplePath" id="examplePath">
+                                </div>
+                                <div style='display: none;' class="themeSelector" id="themeSelector">
+                                    <div style='font-size: 13px; font-family: Arial, Helvetica, Sans-Serif; float: left;
+                                        margin-top: 4px;'>
+                                        Theme:</div>
+                                    <div id='themeComboBox' style='margin-bottom: 3px; margin-left: 10px; float: left;'>
+                                    </div>
+                                </div>
+                                </td>
+                                </tr>
+                                <tr>
+                                <td>
+                                <div id="demoContent" class='demoContent'>
+                                    <div id="divWelcome" style='width: 100%; padding: 0px; margin: 0px;'>
+                                    </div>
+                                    <div id="tabs" style='width: 100%; padding: 0px; margin: 0px; visibility: hidden;'>
+                                        <ul>
+                                            <li id='tab1'><a href="#tabs-1">Demo</a></li>
+                                            <li id='tab2'><a href="#tabs-2">View Source</a></li>
+                                            <li id='tab3'><a href="#tabs-3">API Reference</a></li>
+                                        </ul>
+                                        <div id="tabs-1" style="overflow: auto;">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <div id='divDescription'>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="position: relative;">
+                                                            <div id='innerDemoContent' />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="tabs-2" style="border: 1px solid #e0e0e0; overflow: auto;">
+                                        </div>
+                                        <div id="tabs-3" style="border: 1px solid #e0e0e0; overflow: auto;">
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <span class='copyright'>Copyright 2011(c) jQWidgets. All rights reserved.| <a href="#contactus">
+                                    Contact Us</a> </span>
+                                    </td>
+                                </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr id="demoFooter" style="height: 70px; background: #aaaaa; display:none;">
+                <td>
+                    Footer goes here. Left blank for Wordpress footer integration
+                </td>
+            </tr>
+        </table>
+</body>
+</html>

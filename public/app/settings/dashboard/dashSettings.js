@@ -17,7 +17,7 @@ define(function() {
 	return {
 		routes: {
 			userCred : {
-				url: "todo nikhil",
+				url: "/pos/calculation/",
 				data: {}
 	}
 		}

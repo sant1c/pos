@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title id='Description'>
+Edit time values by setting the jqxDateTimeInput's formatString property to a time format like: 't', 'T' or any custom format.
+Set the showCalendarButton option to hide the calendar button. 
+</title>
+<link rel="stylesheet" href="../../jqwidgets/styles/jqx.default.css" type="text/css"/>
+<script type="text/javascript" src="../../scripts/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxcalendar.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxtooltip.js"></script>
+<script type="text/javascript" src="../../scripts/globalization/jquery.global.js"></script>
+ </head>
+<body>
+<div id='content'>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          var theme = $.data(document.body, 'theme');
+          if (theme == null || theme == undefined) theme = '';
+          // Create jqxDateTimeInput and set its format string to Time. 
+          // Set the showCalendarButton option to hide the calendar's button.
+          $("#jqxWidget").jqxDateTimeInput({ width: '250px', height: '25px', formatString: 'T', showCalendarButton: false, theme: theme });     
+      });
+  </script>  
+  <div id='jqxWidget'></div>
+</div>
+</body>
+</html>

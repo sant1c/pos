@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title id='Description'>The jqxButton widget allows you to display a button on the Web page. 
+      </title>
+    <link rel="stylesheet" href="../../jqwidgets/styles/jqx.default.css" type="text/css" />
+    <script type="text/javascript" src="../../scripts/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
+</head>
+<body class='default'>
+    <div id='content'>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var theme = $.data(document.body, 'theme');
+                if (theme == null || theme == undefined) theme = '';
+
+                // Create jqxButton widgets.
+                $("#jqxButton").jqxButton({ width: '150', height: '25', theme: theme });
+                $("#jqxSubmitButton").jqxButton({ width: '150', height: '25', theme: theme });
+                $("#jqxDisabledButton").jqxButton({disabled: true, width: '150', height: '25', theme: theme });
+            });
+        </script>
+        <div style='width:150px;'id='jqxWidget'>
+            <div>
+                <input type="button" value="Button" id='jqxButton'/>
+            </div>
+            <div>
+                <input style='margin-top: 20px;' type="submit" value="Submit" id='jqxSubmitButton'/>
+            </div>
+            <div>
+                <input style='margin-top: 20px;' type="Button" value="Disabled" id='jqxDisabledButton'/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

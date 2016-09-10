@@ -16,7 +16,10 @@ define([],function() {
   var coremodule = angular.module('coremodule');
   coremodule.factory('dashFactory', function($http) {
 			var dash = {};
-			console.log("dash Factory");
+		 dash.getTabledata = function(url) {
+        return $http.get(url);
+      }
+      
 			return dash;
 	});
 });

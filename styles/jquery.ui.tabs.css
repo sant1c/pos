@@ -1,0 +1,9 @@
+.ui-tabs {  -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; text-align:left; position: relative; padding: 1px; zoom: 1; } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; margin: 1; padding: 3px; }
+.ui-tabs .ui-tabs-nav li {-moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; font-size: 13px; list-style: none; float: left; position: relative; top: 1px; margin: 0 2px 1px 0; border-bottom: 0 !important; padding: 1px; white-space: nowrap; }
+.ui-tabs .ui-tabs-nav li a { font-size: 13px; float: left; margin: 0px; padding: 5px 10px 5px 10px;  text-decoration: none; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin: 0 2px 1px 0; padding: 1px; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: pointer; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel {-moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; font-size: 13px; margin: 0px; display: block; border-width: 0; padding: 0px; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>The jqxProgressBar widget visually indicates the progress of a lengthy operation.</title>
+    <link rel="stylesheet" href="../../jqwidgets/styles/jqx.default.css" type="text/css" />
+    <script type="text/javascript" src="../../scripts/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxprogressbar.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Create jqxProgressBar.
+            var theme = $.data(document.body, 'theme');
+            if (theme == null || theme == undefined) theme = '';
+            $("#jqxProgressBar").jqxProgressBar({ width: 250, height: 25, value: 50, theme: theme });
+            $("#jqxVerticalProgressBar").jqxProgressBar({ width: 25, height: 250, value: 50, orientation: 'vertical', theme: theme });
+            // Create jqxButton.
+            $('#button').jqxButton({ theme: theme });
+            // Update ProgressBars.
+            $('#button').click(function () {
+                var value = $('#ValueInput')[0].value;
+                $("#jqxProgressBar").jqxProgressBar({ value: value });
+                $("#jqxVerticalProgressBar").jqxProgressBar({ value: value });
+            });
+        });
+    </script>
+</head>
+<body class='default'>
+    <div id='jqxWidget' style="font-size: 13px; font-family: Verdana; float: left;">
+        <div style='margin-top: 10px;'>Horizontal</div>
+        <div style='margin-top: 10px; overflow: hidden;' id='jqxProgressBar'>
+     
+        </div>
+        <div style='margin-top: 10px;'>Vertical</div>
+        <div style='margin-top: 10px; overflow: hidden;' id='jqxVerticalProgressBar'>
+     
+        </div>
+        <br />
+        <div>Enter a value between 0 and 100</div>
+        <input id='ValueInput' type='text' style='margin-top: 5px;' />
+        <input id='button' type='button' value='Update' style='margin-top: 5px;' />
+    </div>
+</body>
+</html>
