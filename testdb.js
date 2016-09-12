@@ -3,10 +3,13 @@ mongoose.connect('mongodb://localhost/momoking')
 var Schema = mongoose.Schema;
 
 // create a schema
-var tableSchema = new Schema({
-    _tableid: Schema.Types.ObjectId,
-    name: String,
-    table: { type: String, required: true, unique: true },
+var calculationSchema = new Schema({
+
+    _calcid: Schema.Types.ObjectId,
+    tableno: String,
+    description: String,
+    date: Date,
+    total: Number,
     meta: {
         age: Number,
         website: String
@@ -16,13 +19,14 @@ var tableSchema = new Schema({
 });
 
 
-var Table = mongoose.model('Table', tableSchema);
+var Table = mongoose.model('Calculation', calculationSchema);
 
 // create a new user called chris
-for(var i=0; i<5; i++){
 var list = new Table({
-  name: 'fishoff'+i.toString(),
-  table: 'truu'+i.toString()
+  tableno: 'Table1',
+  description: 'asdadad',
+  date: '2016-02-10'
+  
 });
 
 
@@ -32,4 +36,3 @@ list.save(function(err) {
 
   console.log('Table saved successfully!');
 });
-}

@@ -25,19 +25,6 @@ define(["app/settings/dashboard/dashSettings.js"], function(dashSettings) {
     dashFactory.getTabledata(dashSettings.routes.userCred.url)
       .success(function(calcdata) {
         var data = calcdata;
-        // var data = [  
-        //     { Date: "2/10/2013", Set: 0, Value: 1 },   
-        //     { Date: "2/10/2013", Set: 1, Value: 0 },   
-        //     { Date: "2/11/2013", Set: 0, Value: 15 },   
-        //     { Date: "2/11/2013", Set: 1, Value: 8 },   
-        //     { Date: "2/12/2013", Set: 0, Value: 12 },    
-        //     { Date: "2/12/2013", Set: 1, Value: 11 },    
-        //     { Date: "2/13/2013", Set: 0, Value: 15 },   
-        //     { Date: "2/13/2013", Set: 1, Value: 19 },   
-        //     { Date: "2/14/2013", Set: 0, Value: 10 },    
-        //     { Date: "2/14/2013", Set: 1, Value: 20 }   
-        // ];
-        console.log(data);
         var endData = {};
 
         for (var i = 0; i < data.length; ++i) {
@@ -49,8 +36,6 @@ define(["app/settings/dashboard/dashSettings.js"], function(dashSettings) {
           endData[date].push(data[i].price);
           endData[date].push(data[i].type);
         }
-
-        console.log(endData);
         var finalData = [];
 
         for (var ed in endData) {

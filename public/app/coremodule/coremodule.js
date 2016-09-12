@@ -41,6 +41,11 @@ define(['app/runners/logrunner.js'], function(logrunner) {
         controller: 'loginController',
         controllerAs: 'main'
       })
+      .when('/report', {
+        templateUrl: 'app/views/report.html',
+        controller: 'reportController',
+        controllerAs: 'report'
+      })
       .otherwise({
         redirectTo: '/'
       });
